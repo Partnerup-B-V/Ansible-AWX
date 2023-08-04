@@ -25,11 +25,15 @@ if ! command -v docker &> /dev/null; then
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update -y
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
-    sudo usermod -aG docker "$GEBRUIKER"
-    newgrp docker
 else
-    echo -e "${GREEN}Docker is al geïnstalleerd${NC}"
+    echo -e "${GREEN}Docker is al geïnstalleerd${NC}\n"
 fi
+
+echo -e "${CYAAN}GEBRUIKER WORDT TOEGEVOEGD AAN DE DOCKER GROEP${NC}"
+
+GEBRUIKER="$(whoami)"
+sudo usermod -aG docker $GEBRUIKER
+newgrp docker
 
 # Check and install kubectl and minikube based on architecture
 if [ "$ARCH" = "x86_64" ]; then
