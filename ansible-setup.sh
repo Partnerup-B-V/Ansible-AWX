@@ -33,7 +33,6 @@ echo -e "${CYAAN}GEBRUIKER WORDT TOEGEVOEGD AAN DE DOCKER GROEP${NC}"
 
 GEBRUIKER="$(whoami)"
 sudo usermod -aG docker $GEBRUIKER
-newgrp docker
 
 # Check and install kubectl and minikube based on architecture
 if [ "$ARCH" = "x86_64" ]; then
