@@ -9,6 +9,7 @@ CYAAN='\033[36m'
 BROWN='\033[0;33m'
 LIGHT_BROWN='\033[38;5;136m'
 WHITE='\033[1;37m'
+GEBRUIKER="$(whoami)"
 
 # Functie om de installatie uit te voeren
 install() {
@@ -24,6 +25,8 @@ if ! command -v docker &> /dev/null; then
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update -y
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+    sudo usermod -aG "$GEBRUIKER"
+    newgrp docker
 else
     echo -e "${GREEN}Docker is al geïnstalleerd${NC}"
 fi
