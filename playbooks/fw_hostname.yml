@@ -1,0 +1,15 @@
+---
+- name: "Change FortiOS hostname"
+  hosts: fortigate
+  gather_facts: no
+  vars:
+    sshcommand: |
+      config system global
+      set hostname klant-LOC-FGT01
+      next
+      end
+
+  tasks:
+    - name: "Change Hostname"
+      command: sshpass -p "password123" ssh adm_ansible@1.1.1.1 "{{ sshcommand }}"
+      delegate_to: localhost
