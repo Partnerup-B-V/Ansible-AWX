@@ -1,15 +1,15 @@
-- hosts: fortigate
+ - hosts: fortigate
    collections:
     - fortinet.fortios
    connection: httpapi
    vars:
     vdom: "root"
-    fortigate_adminport: 80
-    fortigate_sadminport: 443
-   
+    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_validate_certs: no
+    ansible_httpapi_port: 8443
+
    tasks:
-   - name: Configure global attributes.
-     fortios_system_dns:
-      vdom:  "{{ vdom }}"
-      system_dns:
-        primary: "1.0.0.1"
+     - name: Configure DNS
+       fortios_system_dns:
+         system_dns:
+           primary: "1.1.1.1"
