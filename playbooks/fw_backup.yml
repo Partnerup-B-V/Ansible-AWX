@@ -1,0 +1,25 @@
+ - hosts: fortigate
+   collections:
+    - fortinet.fortios
+   connection: httpapi
+   vars:
+    vdom: "root"
+    fortigate_adminport: 80
+    fortigate_sadminport: 443
+    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_validate_certs: no
+    ansible_httpapi_port: 443
+   
+   tasks:
+   - name: Configure backup.
+     fortios_monitor_fact:
+       selector: "system_config_backup"
+       vdom: "root"
+       params:
+         scope: 'global'
+     register: "backupinfo"
+
+   - name: save backup
+     copy:
+        content: "{{ backupinfo.meta.raw }}"
+        dest: "/home/choep/ansible/fw_backups/fw_backup"
